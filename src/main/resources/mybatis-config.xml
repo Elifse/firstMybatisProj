@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+<!--   properties    1. 可以用于定义键值对 -->
+<!--   properties     2. 可以引用属性文件 -->
+
+
+    <properties resource="jdbc.properties"/>
+
+
+<!--    设置MyBatis属性-->
+    <settings>
+<!--        开启二级缓存-->
+        <setting name="cacheEnabled" value="ture"/>
+<!--        开启延迟加载-->
+        <setting name="lazyLoadingEnabled" value="ture"/>
+    </settings>
+
+
+<!--  typeAliases 标签用于给实体类取别名 ，在映射文件中可以使用别名来代替实体类的全限定名  -->
+    <typeAliases>
+        <typeAlias type="cloud.elifse.pojo.User" alias="User"/>
+    </typeAliases>
+
+<!--  plugins 标签  用于配置MyBatis插件（分页插件）  -->
+<!--   分页插件： 独立于MyBatis框架之外的第三方插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"/>
+    </plugins>
+
+<!--   environments 标签用于配置数据库的连接信息  -->
+    <environments default="mysql">
+        <environment id="mysql">
+<!--       transactionManager 标签用于配置数据库的管理方式
+            type="JDBC" 可以进行事务的提交以及回滚
+            type="MANAGED" 依赖容器完成事务,本身不进行事务的提交以及回滚-->
+            <transactionManager type="JDBC"/>
+<!--      dataSource 标签用来配置数据库的链接信息 POOLED | UNPOOLED       -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+<!--mappers标签 用于载入映射文件 -->
+    <mappers>
+        <mapper resource="mappers/userMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--mapper相当于dao接口的实现类，namespace需要指定dao接口的限定名-->
+<mapper namespace="cloud.elifse.dao.UserDAO">
+    <!--   useGeneratedKeys设置添加操作是否需要回填   -->
+    <!--   keyProperty设置回填的主键值赋值到参数的哪一个属性   -->
+    <insert id="insertUser" useGeneratedKeys="true" keyProperty="userId">
+        insert into user values (#{userId},#{userNum},#{userName},#{userGender},#{loginTime})
+    </insert>
+
+    <delete id="deleteUser">
+        delete from user where user_num = #{userNum}
+    </delete>
+
+    <update id="updateUser">
+        update user set user_name = #{userName} where user_num = #{userNum}
+    </update>
+
+
+    <resultMap id="userMap" type="User">
+        <id column="user_id" property="userId"/>
+        <result column="user_num" property="userNum"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_gender" property="userGender"/>
+        <result column="login_time" property="loginTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+<!--    <select id="selectUsers" resultType="cloud.elifse.pojo.User" >-->
+<!--        select id userId,name userName from user-->
+<!--    </select>-->
+
+
+<!-- sql 标签 用于定义sql 片段 -->
+    <sql id="userInfo"> user_id, user_num, user_name, user_gender, login_time </sql>
+<!--使用include标签用来调用在sql标签中定义的sql 片段-->
+    <select id="selectUsers" resultMap="userMap" >
+        select <include refid="userInfo"/> from user
+
+    </select>
+
+    <select id="queryUser" resultMap="userMap">
+        select <include refid="userInfo"/> from user where user_id = #{userId}
+    </select>
+    <select id="queryUserByUserGender" resultMap="userMap">
+        select <include refid="userInfo"/> from user where user_gender = #{userGenser}
+    </select>
+    <select id="queryUserByLoginTime" resultMap="userMap">
+        select <include refid="userInfo"/> from user where login_time = #{loginTime}
+    </select>
+
+    <select id="listUsersByPage" resultMap="userMap">
+        select <include refid="userInfo"/> from user
+        limit #{start},#{pageSize}
+    </select>
+<!--    limit #{arg0},#{arg1}-->
+<!--    limit #{param1},#{param2}-->
+    <select id="getCount" resultType="int">
+        select count(1) from user
+    </select>
+    <select id="queryUserByName" resultMap="userMap">
+        select <include refid="userInfo"/> from user where user_name = #{userName}
+    </select>
+</mapper>
