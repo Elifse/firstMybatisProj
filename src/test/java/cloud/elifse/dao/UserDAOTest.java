@@ -161,4 +161,11 @@ public class UserDAOTest {
             System.out.println("没有查询到相关信息");
         }
     }
+    @org.junit.Test
+    // 修改用户全部信息
+    public void updateUserAll() {
+        UserDAO userDAO = MyBatisUtil.getMapper(UserDAO.class);
+        int result = userDAO.updateUserAll(new User(0,"0044","张三","男","2020-12-12 12:12:12"));
+        System.out.println(result);
+    }
 }

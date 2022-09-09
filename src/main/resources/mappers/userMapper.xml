@@ -18,6 +18,10 @@
         update user set user_name = #{userName} where user_num = #{userNum}
     </update>
 
+    <update id="updateUserAll">
+        update user set user_name = #{userName} , user_gender = #{userGender} , login_time = #{loginTime} where user_num = #{userNum}
+    </update>
+
 
     <resultMap id="userMap" type="User">
         <id column="user_id" property="userId"/>

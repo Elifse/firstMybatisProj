@@ -20,6 +20,8 @@ public interface UserDAO {
     public List<User> queryUserByUserGender(String userGender);
     public List<User> queryUserByName(String userName);
     public List<User> queryUserByLoginTime(String userName);
+    // 修改用户全部信息
+    public int updateUserAll(User user);
 
 
 //    public List<User> listUsersByPage(@Param("start") int start,@Param("pageSize") int pageSize);
